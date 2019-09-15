@@ -83,6 +83,8 @@ class WiFiManager
 
     // get the AP name of the config portal, so it can be used in the callback
     String        getConfigPortalSSID();
+    String        getSSID();
+    String        getPassword(); 
 
     void          resetSettings();
 

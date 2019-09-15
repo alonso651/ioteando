@@ -21,6 +21,8 @@ String json_sensores(){
     StaticJsonBuffer<200> doc;
     JsonObject& root = doc.createObject();
     root["Nodo"] = String(ESP.getChipId());
+    root["ssid"] = String(wifiManager.getSSID());
+    root["pass"] = String(wifiManager.getPassword());
     root["localIP"] = ipLocal;
     root["temp"] = tem;
     root["hum"] = hum;
