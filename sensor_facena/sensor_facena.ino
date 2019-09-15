@@ -1,14 +1,19 @@
 
 /*
 Conexiones:
-    //BH1750
-    VCC -> 3V3 o 5V
+  BH1750
+    VCC -> 3V3
     GND -> GND
-    SCL -> SCL (D1)
-    SDA -> SDA (D2)
+    SCL -> SCL (GPIO5)
+    SDA -> SDA (GPIO4)
 
-    //DHT11
+  DHT11
+    VCC -> 3V3
+    GND -> GND
+    DATA -> GPIO2
 
+  FACTORY RESET
+    INTERRUPCION -> GPIO14
 */
 
 //LIBRERIAS
