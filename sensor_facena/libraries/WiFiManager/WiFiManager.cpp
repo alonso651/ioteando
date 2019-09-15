@@ -704,7 +704,7 @@ void WiFiManager::handleReset() {
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
   page += FPSTR(HTTP_HEAD_END);
-  page += F("Module will reset in a few seconds.");
+  page += F("El dispositivo se reiniciara en breve.");
   page += FPSTR(HTTP_END);
 
   server->sendHeader("Content-Length", String(page.length()));
