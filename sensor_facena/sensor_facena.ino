@@ -32,86 +32,26 @@ Conexiones:
 #include <BH1750.h>
 
 
+//OBJETOS
 BH1750 lightMeter;
 DHTesp dht;
 WiFiClient espClient;
 PubSubClient client(espClient);
 WiFiManager wifiManager;
 
-//VARIABLES DE MQTT
+//VARIABLES
 char mqtt_server[40] = "sambrana.com.ar";
 char mqtt_port[6] = "1883";
 char suscribe_topic[34] = "comando";
 char publish_topic[34] = "facena";
 long loopTime = 2000;
-//VARIABLES
 bool shouldSaveConfig = false;
 long lastMsg = 0;
-
-// función para reinicio de las credenciales del WiFi
-void servicioboton(){
-  WiFi.disconnect();
-}
-//callback notifying us of the need to save config
-void saveConfigCallback () {
-  Serial.println("Should save config");
-  shouldSaveConfig = true;
-}
-
-// función para reinicio de las credenciales del WiFi
-void factoryReset(){
-  WiFi.disconnect();
-}
-
-void callback(char* topic, byte* payload, unsigned int length) {
-  String dato="";
-  char c;
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
-  for (int i = 0; i < length; i++) {
-    dato += c;
-  }
-  Serial.println();
-  Serial.print("------json------");Serial.println(dato);
-  dato = "";
-
-
-}
-
-void setup_wifi() {
-
-  delay(10);
-  // We start by connecting to a WiFi network  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("WiFi conectado");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
-}
-
-void reconnect() {
-  // Loop until we're reconnected
-  while (!client.connected()) {
-    Serial.print("Conectando con servidor MQTT...");
-    if (client.connect("Sensor_facena")) {
-      Serial.println("conectado");
-      client.publish(publish_topic, "hello world");
-    } else {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      delay(5000);
-    }
-  }
-}
+String json;
 
 void setup() {
   pinMode(14, INPUT);     //GPIO14
-  attachInterrupt(digitalPinToInterrupt(14),servicioboton,RISING);
+  attachInterrupt(digitalPinToInterrupt(14),factoryReset,RISING);
   Serial.begin(115200);
   setup_wifiManager();
   setup_OTA();  
@@ -124,12 +64,10 @@ void setup() {
 }
 void loop() {
   ArduinoOTA.handle();
-
   if (!client.connected()) {
     reconnect();
   }
   client.loop();
-
   long now = millis();
   if (now - lastMsg > loopTime) {
     lastMsg = now; 
@@ -142,3 +80,12 @@ void loop() {
     client.publish(publish_topic, msg);
   }
 }
+
+/*
+TODO
+  
+  · loopTime persistente. Guardar valor en el File System
+  · Agregar usuario y contraseña a MQTT
+  · Cambiar en la web ESP los campos Publish y Suscribe Topic por User y Pass MQTT (Oculto)
+
+*/

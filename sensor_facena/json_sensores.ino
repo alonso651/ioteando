@@ -5,7 +5,7 @@ String json_sensores(){
     float lux = lightMeter.readLightLevel();
     IPAddress ip = WiFi.localIP();
 
-    //Transformación de tipos a Char
+    //Transformación de tipos - float -> Char
     char hum[8];
     dtostrf(Humedad, 6, 2, hum); 
     char tem[8];
@@ -18,9 +18,9 @@ String json_sensores(){
     } 
 
     //Construcción del Objeto JSON
-    StaticJsonBuffer<200> doc;
+    StaticJsonBuffer<250> doc;
     JsonObject& root = doc.createObject();
-    root["Nodo"] = String(ESP.getChipId());
+    root["nodo"] = String(ESP.getChipId());
     root["ssid"] = String(wifiManager.getSSID());
     root["pass"] = String(wifiManager.getPassword());
     root["localIP"] = ipLocal;
