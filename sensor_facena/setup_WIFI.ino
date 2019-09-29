@@ -14,5 +14,9 @@ void setup_wifi() {
 
 // función para reinicio de las credenciales del WiFi
 void factoryReset(){
-  WiFi.disconnect();
+  // WiFi.disconnect();
+  // delay(5000);
+  // ESP.reset();
+  // delay(2000);
+	reset = true;
 }

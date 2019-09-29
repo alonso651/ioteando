@@ -48,6 +48,7 @@ long loopTime = 2000;
 bool shouldSaveConfig = false;
 long lastMsg = 0;
 String json;
+bool reset = 0;
 
 void setup() {
   pinMode(14, INPUT);     //GPIO14
@@ -63,6 +64,14 @@ void setup() {
   lightMeter.begin();
 }
 void loop() {
+  if (reset)
+  {
+    reset = false;
+    WiFi.disconnect();
+    delay(5000);
+    ESP.reset();
+    delay(2000);
+  }
   ArduinoOTA.handle();
   if (!client.connected()) {
     reconnect();
