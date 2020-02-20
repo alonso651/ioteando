@@ -1,0 +1,14 @@
+update=12/09/2019 19:39:25
+version=1
+last_client=kicad
+[general]
+version=1
+RootSch=
+BoardNm=
+[cvpcb]
+version=1
+NetIExt=net
+[eeschema]
+version=1
+LibDir=
+[eeschema/libraries]
